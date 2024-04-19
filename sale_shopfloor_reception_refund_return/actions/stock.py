@@ -9,8 +9,6 @@ class StockAction(Component):
 
     def _create_return_move__get_vals(self, return_picking, origin_move):
         res = super()._create_return_move__get_vals(return_picking, origin_move)
-        if return_picking.picking_type_code == "incoming":
-            res["to_refund"] = True
         if res.get("to_refund") and origin_move.sale_line_id:
             res["sale_line_id"] = origin_move.sale_line_id.id
         return res

@@ -1,6 +1,7 @@
 # Copyright 2024 vnikolayev1 Raumschmiede GmbH
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 from odoo.tests import Form
+
 from odoo.addons.shopfloor.tests.common import CommonCase
 
 
@@ -59,16 +60,13 @@ class TestActionsStock(CommonCase):
         return_picking = self.stock.create_return_picking(
             self.picking, self.picking_type_in, "potato"
         )
-        return_moves = self.stock.create_return_move(
-            return_picking, self.picking.move_lines[0]
-        )
-        self.assertEqual(return_moves.sale_line_id, self.picking.move_lines[0].sale_line_id)
-        self.assertTrue(all(move.to_refund for move in return_moves))
+        move_line = self.picking.move_lines[0]
+        return_moves = self.stock.create_return_move(return_picking, move_line)
+        self.assertEqual(return_moves.sale_line_id, move_line.sale_line_id)
         return_picking.action_assign()
         return_picking._action_done()
-        # However, on outgoing returns, this field is False
         outgoing_return = self.stock.create_return_picking(
             return_picking, self.picking_type, "potato"
         )
         outgoing_moves = self.stock.create_return_move(outgoing_return, return_moves)
-        self.assertTrue(all(not move.to_refund for move in outgoing_moves))
+        self.assertEqual(outgoing_moves.sale_line_id, move_line.sale_line_id)

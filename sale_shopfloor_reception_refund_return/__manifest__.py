@@ -3,13 +3,11 @@
 
 {
     "name": "Sale Shopfloor Reception Refund Return",
-    "summary": "Marks created return as to refund, sets sale order line",
+    "summary": "Sets sale order lin on created returns",
     "version": "14.0.1.0.0",
     "category": "Inventory, Accounting",
     "website": "https://github.com/OCA/wms",
-    "author": "Raumschmiede GmbH, Odoo Community Association (OCA)",
+    "author": "Raumschmiede GmbH, MT Software, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "installable": True,
-    "auto_install": False,
     "depends": ["sale_stock", "shopfloor_reception_refund_return"],
 }
